@@ -1,0 +1,10 @@
+﻿namespace Case1ResumeProject.Entities
+{
+    public class Skill
+    {
+        public int SkillId { get; set; }
+        public string SkillName { get; set; }
+        public int SkillLevel { get; set; }
+
+    }
+}

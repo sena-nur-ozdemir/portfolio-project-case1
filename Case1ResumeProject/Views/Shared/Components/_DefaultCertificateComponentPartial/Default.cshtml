@@ -1,0 +1,21 @@
+﻿@model List<Case1ResumeProject.Entities.Certificate>
+<div class="mt-4">
+    <h6 class="font-weight-bold mb-3">Sertifikalar</h6>
+    @foreach (var item in Model)
+    {
+        <div class="cert-item mb-2">
+            <strong>@item.Title</strong>
+            @if (!string.IsNullOrEmpty(item.Organization))
+            {
+                <span class="text-muted"> - @item.Organization</span>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .cert-item {
+        padding-left: 15px;
+        border-left: 2px solid #007bff;
+    }
+</style>

@@ -1,0 +1,107 @@
+﻿@model Experience
+@{
+    ViewData["Title"] = "UpdateExperience";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="flex-1 overflow-y-auto p-8">
+    <div class="max-w-4xl mx-auto space-y-8">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-bold text-white">Deneyim Güncelle</h3>
+                <p class="text-slate-400 text-sm mt-1">Deneyim kaydını düzenleyin ve güncelleyin</p>
+            </div>
+            <a href="/Experience/ExperienceList/" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all">
+                <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">arrow_back</span>
+                Listeye Dön
+            </a>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-card-dark rounded-xl border border-slate-800 overflow-hidden shadow-2xl">
+            <form method="post" class="p-8 space-y-6">
+                <!-- Hidden ID Field -->
+                <input type="hidden" asp-for="ExperienceId" />
+
+                <!-- Company Name -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">
+                        Şirket Adı
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text"
+                           asp-for="CompanyName"
+                           class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                           placeholder="Örn: Acme Corporation"
+                           required />
+                </div>
+
+                <!-- Title -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">
+                        Unvan
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text"
+                           asp-for="Title"
+                           class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                           placeholder="Örn: Senior Software Developer"
+                           required />
+                </div>
+
+                <!-- Work Period -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">
+                        Çalışma Periyodu
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text"
+                           asp-for="WorkPeriodDate"
+                           class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                           placeholder="Örn: 2020 - 2023"
+                           required />
+                </div>
+
+                <!-- Description -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">
+                        Açıklama
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <textarea asp-for="Description"
+                              rows="6"
+                              class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+                              placeholder="Pozisyonunuzla ilgili detaylı bilgi, sorumluluklar ve başarılar..."
+                              required></textarea>
+                    <p class="text-xs text-slate-500">İş tanımı, görevler ve başarılarınızı detaylı şekilde açıklayın.</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-4 pt-4 border-t border-slate-800">
+                    <button type="submit"
+                            class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
+                        <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">update</span>
+                        Değişiklikleri Kaydet
+                    </button>
+                    <a href="/Experience/ExperienceList/"
+                       class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all">
+                        <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">cancel</span>
+                        İptal
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Warning Card -->
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-6">
+            <div class="flex gap-4">
+                <span class="material-symbols-outlined text-amber-400" style="font-size: 24px;">warning</span>
+                <div class="space-y-1">
+                    <h4 class="text-sm font-semibold text-amber-400">Dikkat</h4>
+                    <p class="text-sm text-slate-300">Yaptığınız değişiklikler kalıcı olacaktır. Kaydetmeden önce bilgilerin doğruluğundan emin olun.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,225 @@
+﻿@model About
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="flex-1 overflow-y-auto p-8">
+    <div class="max-w-7xl mx-auto space-y-8">
+        <!-- Welcome Section -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-3xl font-bold text-white">Hoş Geldiniz, @Model.NameSurname 👋</h3>
+                <p class="text-slate-400 text-sm mt-1">İşte portfolyonuzun genel durumu</p>
+            </div>
+            <div class="text-right">
+                <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider">Bugün</p>
+                <p class="text-white font-bold">@DateTime.Now.ToString("dd MMMM yyyy")</p>
+                <p class="text-slate-400 text-sm">@DateTime.Now.ToString("dddd")</p>
+            </div>
+        </div>
+
+        <!-- Stats Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Projects Count -->
+            <div class="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-xl p-6 hover:shadow-xl hover:shadow-blue-500/10 transition-all group">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center group-hover:bg-blue-500/30 transition-all">
+                        <span class="material-symbols-outlined text-blue-400" style="font-size: 28px;">work</span>
+                    </div>
+                    <span class="text-blue-400 text-xs font-bold bg-blue-500/20 px-2 py-1 rounded">+@ViewBag.activeProjects Aktif</span>
+                </div>
+                <h4 class="text-3xl font-bold text-white mb-1">@ViewBag.totalProjects</h4>
+                <p class="text-blue-400 text-sm font-semibold">Toplam Proje</p>
+            </div>
+
+            <!-- Skills Count -->
+            <div class="bg-gradient-to-br from-emerald-500/10 to-emerald-600/5 border border-emerald-500/20 rounded-xl p-6 hover:shadow-xl hover:shadow-emerald-500/10 transition-all group">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-emerald-500/20 rounded-lg flex items-center justify-center group-hover:bg-emerald-500/30 transition-all">
+                        <span class="material-symbols-outlined text-emerald-400" style="font-size: 28px;">psychology</span>
+                    </div>
+                </div>
+                <h4 class="text-3xl font-bold text-white mb-1">@ViewBag.totalSkills</h4>
+                <p class="text-emerald-400 text-sm font-semibold">Toplam Yetenek</p>
+            </div>
+
+            <!-- Messages Count -->
+            <div class="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border border-purple-500/20 rounded-xl p-6 hover:shadow-xl hover:shadow-purple-500/10 transition-all group">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center group-hover:bg-purple-500/30 transition-all">
+                        <span class="material-symbols-outlined text-purple-400" style="font-size: 28px;">mail</span>
+                    </div>
+                    <span class="text-purple-400 text-xs font-bold bg-purple-500/20 px-2 py-1 rounded">@ViewBag.unreadMessages Yeni</span>
+                </div>
+                <h4 class="text-3xl font-bold text-white mb-1">@ViewBag.totalMessages</h4>
+                <p class="text-purple-400 text-sm font-semibold">Gelen Mesaj</p>
+            </div>
+
+            <!-- Certificates Count -->
+            <div class="bg-gradient-to-br from-amber-500/10 to-amber-600/5 border border-amber-500/20 rounded-xl p-6 hover:shadow-xl hover:shadow-amber-500/10 transition-all group">
+                <div class="flex items-start justify-between mb-4">
+                    <div class="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center group-hover:bg-amber-500/30 transition-all">
+                        <span class="material-symbols-outlined text-amber-400" style="font-size: 28px;">workspace_premium</span>
+                    </div>
+                    <span class="text-amber-400 text-xs font-bold bg-amber-500/20 px-2 py-1 rounded">@ViewBag.activeCertificates Aktif</span>
+                </div>
+                <h4 class="text-3xl font-bold text-white mb-1">@ViewBag.totalCertificates</h4>
+                <p class="text-amber-400 text-sm font-semibold">Sertifika</p>
+            </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- About Summary Card (2 columns) -->
+            <div class="lg:col-span-2 bg-card-dark rounded-xl border border-slate-800 overflow-hidden shadow-xl">
+                <div class="bg-gradient-to-r from-primary/20 to-transparent p-6 border-b border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary" style="font-size: 28px;">person</span>
+                        <div>
+                            <h4 class="text-lg font-bold text-white">Hakkımda Özeti</h4>
+                            <p class="text-slate-400 text-sm">Profil bilgileriniz</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex items-start gap-6 mb-6">
+                        <div class="w-24 h-24 rounded-full overflow-hidden bg-slate-900 ring-4 ring-primary/30 flex-shrink-0">
+                            <img src="@Model.ImageUrl" alt="@Model.NameSurname" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-white mb-2">@Model.NameSurname</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed line-clamp-3">@Model.Description</p>
+                            <a href="/About" class="inline-flex items-center gap-2 text-primary hover:text-primary/80 text-sm font-semibold mt-3 transition-colors">
+                                <span>Düzenle</span>
+                                <span class="material-symbols-outlined" style="font-size: 16px;">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Card (1 column) -->
+            <div class="bg-card-dark rounded-xl border border-slate-800 overflow-hidden shadow-xl">
+                <div class="bg-gradient-to-r from-slate-700 to-transparent p-6 border-b border-slate-800">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-slate-300" style="font-size: 28px;">bolt</span>
+                        <div>
+                            <h4 class="text-lg font-bold text-white">Hızlı İşlemler</h4>
+                            <p class="text-slate-400 text-sm">Sık kullanılanlar</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 space-y-3">
+                    <a href="/Portfolio/CreatePortfolio" class="flex items-center gap-3 p-3 bg-slate-900/50 hover:bg-slate-800 rounded-lg border border-slate-700 hover:border-primary/50 transition-all group">
+                        <div class="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center group-hover:bg-primary/30 transition-all">
+                            <span class="material-symbols-outlined text-primary" style="font-size: 20px;">add</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold text-sm">Yeni Proje Ekle</p>
+                            <p class="text-slate-500 text-xs">Portfolyoya proje ekle</p>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-600 group-hover:text-primary transition-colors" style="font-size: 20px;">arrow_forward</span>
+                    </a>
+
+                    <a href="/Message/MessageList" class="flex items-center gap-3 p-3 bg-slate-900/50 hover:bg-slate-800 rounded-lg border border-slate-700 hover:border-primary/50 transition-all group">
+                        <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center group-hover:bg-purple-500/30 transition-all">
+                            <span class="material-symbols-outlined text-purple-400" style="font-size: 20px;">mail</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold text-sm">Mesajları Görüntüle</p>
+                            <p class="text-slate-500 text-xs">@ViewBag.unreadMessages okunmamış mesaj</p>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-600 group-hover:text-primary transition-colors" style="font-size: 20px;">arrow_forward</span>
+                    </a>
+
+                    <a href="/Skill/CreateSkill" class="flex items-center gap-3 p-3 bg-slate-900/50 hover:bg-slate-800 rounded-lg border border-slate-700 hover:border-primary/50 transition-all group">
+                        <div class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center group-hover:bg-emerald-500/30 transition-all">
+                            <span class="material-symbols-outlined text-emerald-400" style="font-size: 20px;">add</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-white font-semibold text-sm">Yeni Yetenek Ekle</p>
+                            <p class="text-slate-500 text-xs">Beceri ekle veya düzenle</p>
+                        </div>
+                        <span class="material-symbols-outlined text-slate-600 group-hover:text-primary transition-colors" style="font-size: 20px;">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity & System Status -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Recent Messages -->
+            @await Component.InvokeAsync("_AdminDashboardRecentMessagesComponentPartial")
+            <!-- System Status -->
+            <div class="bg-card-dark rounded-xl border border-slate-800 overflow-hidden shadow-xl">
+                <div class="p-6 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-emerald-400" style="font-size: 24px;">monitoring</span>
+                        <div>
+                            <h4 class="text-lg font-bold text-white">Sistem Durumu</h4>
+                            <p class="text-slate-500 text-xs">Portfolio istatistikleri</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 space-y-4">
+                    <!-- Education -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-blue-400" style="font-size: 20px;">school</span>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold text-sm">Eğitim Kayıtları</p>
+                                <p class="text-slate-500 text-xs">Toplam eğitim bilgisi</p>
+                            </div>
+                        </div>
+                        <span class="text-white font-bold text-lg">@ViewBag.totalEducations</span>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-purple-400" style="font-size: 20px;">business_center</span>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold text-sm">Deneyim Kayıtları</p>
+                                <p class="text-slate-500 text-xs">İş tecrübeleri</p>
+                            </div>
+                        </div>
+                        <span class="text-white font-bold text-lg">@ViewBag.totalExperiences</span>
+                    </div>
+
+                    <!-- Services -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-emerald-400" style="font-size: 20px;">design_services</span>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold text-sm">Hizmetler</p>
+                                <p class="text-slate-500 text-xs">Sunulan hizmetler</p>
+                            </div>
+                        </div>
+                        <span class="text-white font-bold text-lg">@ViewBag.totalServices</span>
+                    </div>
+
+                    <!-- Testimonials -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-amber-400" style="font-size: 20px;">rate_review</span>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold text-sm">Referanslar</p>
+                                <p class="text-slate-500 text-xs">Müşteri yorumları</p>
+                            </div>
+                        </div>
+                        <span class="text-white font-bold text-lg">@ViewBag.totalTestimonials</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

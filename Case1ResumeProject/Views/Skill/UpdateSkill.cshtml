@@ -1,0 +1,132 @@
+﻿@model Skill
+@{
+    ViewData["Title"] = "UpdateSkill";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="flex-1 overflow-y-auto p-8">
+    <div class="max-w-4xl mx-auto space-y-8">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-bold text-white">Yetenek Güncelle</h3>
+                <p class="text-slate-400 text-sm mt-1">Yetenek kaydını düzenleyin ve güncelleyin</p>
+            </div>
+            <a href="/Skill/SkillList/" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all">
+                <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">arrow_back</span>
+                Listeye Dön
+            </a>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-card-dark rounded-xl border border-slate-800 overflow-hidden shadow-2xl">
+            <form method="post" class="p-8 space-y-6">
+                <!-- Hidden ID Field -->
+                <input type="hidden" asp-for="SkillId" />
+
+                <!-- Skill Name -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">
+                        Yetenek Adı
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text"
+                           asp-for="SkillName"
+                           class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                           placeholder="Örn: C#, JavaScript, React, Photoshop"
+                           required />
+                </div>
+
+                <!-- Skill Level -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">
+                        Yetenek Seviyesi (%)
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <div class="space-y-4">
+                        <input type="range"
+                               asp-for="SkillLevel"
+                               id="skillLevelRange"
+                               min="0"
+                               max="100"
+                               class="w-full h-3 bg-slate-900/50 rounded-lg appearance-none cursor-pointer accent-primary"
+                               oninput="updateSkillLevel(this.value)"
+                               required />
+                        <div class="flex items-center justify-between">
+                            <span class="text-slate-500 text-sm">0%</span>
+                            <div class="flex items-center gap-3">
+                                <span class="text-slate-400 text-sm font-medium">Seçili Seviye:</span>
+                                <span id="skillLevelValue" class="text-white text-2xl font-bold">@Model.SkillLevel%</span>
+                            </div>
+                            <span class="text-slate-500 text-sm">100%</span>
+                        </div>
+
+                        <!-- Visual Preview -->
+                        <div class="bg-slate-900/30 border border-slate-700 rounded-lg p-4">
+                            <p class="text-slate-400 text-xs font-semibold mb-2 uppercase tracking-wider">Önizleme</p>
+                            <div class="w-full bg-slate-900/50 rounded-full h-4 overflow-hidden border border-slate-700">
+                                <div id="skillLevelPreview" class="h-full bg-gradient-to-r from-primary to-blue-500 rounded-full transition-all duration-300 shadow-lg shadow-primary/50" style="width: @Model.SkillLevel%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Select Buttons -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">Hızlı Seçim</label>
+                    <div class="flex flex-wrap gap-2">
+                        <button type="button" onclick="setSkillLevel(25)" class="px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-400 rounded-lg text-sm font-semibold transition-all border border-amber-500/30">
+                            Başlangıç (25%)
+                        </button>
+                        <button type="button" onclick="setSkillLevel(50)" class="px-4 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg text-sm font-semibold transition-all border border-blue-500/30">
+                            Orta (50%)
+                        </button>
+                        <button type="button" onclick="setSkillLevel(75)" class="px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 rounded-lg text-sm font-semibold transition-all border border-emerald-500/30">
+                            İyi (75%)
+                        </button>
+                        <button type="button" onclick="setSkillLevel(90)" class="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg text-sm font-semibold transition-all border border-purple-500/30">
+                            Uzman (90%)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-4 pt-4 border-t border-slate-800">
+                    <button type="submit"
+                            class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
+                        <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">update</span>
+                        Değişiklikleri Kaydet
+                    </button>
+                    <a href="/Skill/SkillList/"
+                       class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all">
+                        <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">cancel</span>
+                        İptal
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Warning Card -->
+        <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-6">
+            <div class="flex gap-4">
+                <span class="material-symbols-outlined text-amber-400" style="font-size: 24px;">warning</span>
+                <div class="space-y-1">
+                    <h4 class="text-sm font-semibold text-amber-400">Dikkat</h4>
+                    <p class="text-sm text-slate-300">Yaptığınız değişiklikler kalıcı olacaktır. Kaydetmeden önce bilgilerin doğruluğundan emin olun.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateSkillLevel(value) {
+        document.getElementById('skillLevelValue').textContent = value + '%';
+        document.getElementById('skillLevelPreview').style.width = value + '%';
+    }
+
+    function setSkillLevel(value) {
+        document.getElementById('skillLevelRange').value = value;
+        updateSkillLevel(value);
+    }
+</script>

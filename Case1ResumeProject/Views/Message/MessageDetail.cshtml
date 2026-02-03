@@ -1,0 +1,102 @@
+﻿@model Message
+@{
+    ViewData["Title"] = "MessageDetail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="flex-1 overflow-y-auto p-8">
+    <div class="max-w-4xl mx-auto space-y-8">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-bold text-white">Mesaj Detayı</h3>
+                <p class="text-slate-400 text-sm mt-1">Mesaj içeriğini görüntüle ve yönet</p>
+            </div>
+            <a href="/Message/MessageList/" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all">
+                <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">arrow_back</span>
+                Listeye Dön
+            </a>
+        </div>
+
+        <!-- Message Card -->
+        <div class="bg-card-dark rounded-xl border border-slate-800 overflow-hidden shadow-2xl">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-primary/10 to-transparent p-6 border-b border-slate-800">
+                <div class="flex items-start justify-between gap-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h2 class="text-2xl font-bold text-white">@Model.Subject</h2>
+                            @if (!Model.IsRead)
+                            {
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-primary/20 text-primary border border-primary/30">
+                                    Yeni Mesaj
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                                    <span class="material-symbols-outlined mr-1" style="font-size: 14px;">check_circle</span>
+                                    Okundu
+                                </span>
+                            }
+                        </div>
+                        <div class="flex items-center gap-4 text-sm text-slate-400">
+                            <span class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined" style="font-size: 16px;">schedule</span>
+                                @Model.SendDate.ToString("dd MMMM yyyy, HH:mm")
+                            </span>
+                            <span class="text-slate-600">•</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sender Info -->
+            <div class="p-6 border-b border-slate-800 bg-slate-900/20">
+                <div class="flex items-start gap-4">
+                    <div class="w-14 h-14 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span class="material-symbols-outlined text-primary" style="font-size: 28px;">person</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">Gönderen</p>
+                        <h4 class="text-lg font-bold text-white mb-1">@Model.NameSurname</h4>
+                        <a href="mailto:@Model.Email" class="text-primary hover:text-primary/80 text-sm font-medium flex items-center gap-2 transition-colors">
+                            <span class="material-symbols-outlined" style="font-size: 16px;">email</span>
+                            @Model.Email
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Message Content -->
+            <div class="p-6">
+                <p class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-3">Mesaj İçeriği</p>
+                <div class="bg-slate-900/30 border border-slate-700 rounded-lg p-5">
+                    <p class="text-slate-300 text-base leading-relaxed whitespace-pre-wrap">@Model.MessageDetail</p>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="p-6 border-t border-slate-800 bg-slate-900/20">
+                <div class="flex items-center gap-3">
+                    @if (!Model.IsRead)
+                    {
+                        <a href="/Message/MarkAsRead/@Model.MessageId" class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
+                            <span class="material-symbols-outlined" style="font-size: 20px;">mark_email_read</span>
+                            Okundu Olarak İşaretle
+                        </a>
+                    }
+                    <a href="mailto:@Model.Email" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all">
+                        <span class="material-symbols-outlined" style="font-size: 20px;">reply</span>
+                        Yanıtla
+                    </a>
+                    <a href="/Message/DeleteMessage/@Model.MessageId" class="flex items-center gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 px-6 py-3 rounded-lg font-bold text-sm transition-all border border-red-500/30 ml-auto">
+                        <span class="material-symbols-outlined" style="font-size: 20px;">delete</span>
+                        Mesajı Sil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

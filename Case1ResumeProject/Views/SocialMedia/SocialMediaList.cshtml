@@ -1,0 +1,191 @@
+﻿@model List<SocialMedia>
+@{
+    ViewData["Title"] = "SocialMediaList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="flex-1 overflow-y-auto p-8">
+    <div class="max-w-5xl mx-auto space-y-8">
+        <!-- Welcome Section -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-bold text-white">Sosyal Medya Hesapları</h3>
+                <p class="text-slate-400 text-sm mt-1">Sosyal medya hesaplarınızı bu sayfadan yönetebilirsiniz.</p>
+            </div>
+            <button onclick="openAddModal()" class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
+                <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">add</span>
+                Yeni Hesap Ekle
+            </button>
+        </div>
+
+        <!-- Social Media List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @foreach (var item in Model)
+            {
+                <div class="bg-card-dark rounded-lg border border-slate-800 overflow-hidden shadow-lg hover:shadow-xl hover:border-slate-700 transition-all group">
+                    <div class="p-5">
+                        <div class="flex items-start justify-between gap-3 mb-4">
+                            <div class="flex items-center gap-3 flex-1">
+                                <div class="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-all">
+                                    @if (!string.IsNullOrEmpty(item.Icon))
+                                    {
+                                        <i class="@item.Icon text-primary text-2xl"></i>
+                                    }
+                                    else
+                                    {
+                                        <span class="material-symbols-outlined text-primary" style="font-size: 24px;">link</span>
+                                    }
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-base font-bold text-white group-hover:text-primary transition-colors truncate">@item.Name</h4>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/30 border border-slate-700 rounded-lg px-3 py-2 mb-3">
+                            <a href="@item.Url" target="_blank" class="text-slate-400 text-xs truncate block hover:text-primary transition-colors">
+                                @item.Url
+                            </a>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <button onclick="openEditModal(@item.SocialMediaId, '@item.Name', '@item.Url', '@item.Icon')" class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-sm font-semibold transition-all">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+                                Düzenle
+                            </button>
+                            <a href="/SocialMedia/DeleteSocialMedia/@item.SocialMediaId" class="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg text-sm font-semibold transition-all border border-red-500/30">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+                                Sil
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Footer -->
+        <div class="flex items-center justify-between px-4">
+            <p class="text-slate-500 text-sm">Toplam <span class="text-white font-semibold">@Model.Count</span> sosyal medya hesabı</p>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Modal -->
+<div id="socialMediaModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-card-dark rounded-xl border border-slate-800 shadow-2xl w-full max-w-2xl transform transition-all" onclick="event.stopPropagation()">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-slate-800">
+            <div>
+                <h3 id="modalTitle" class="text-xl font-bold text-white">Yeni Sosyal Medya Hesabı Ekle</h3>
+                <p class="text-slate-400 text-sm mt-1">Sosyal medya bilgilerinizi girin</p>
+            </div>
+            <button onclick="closeModal()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-all">
+                <span class="material-symbols-outlined" style="font-size: 20px;">close</span>
+            </button>
+        </div>
+
+        <!-- Modal Form -->
+        <form id="socialMediaForm" method="post" class="p-6 space-y-5">
+            <input type="hidden" id="socialMediaId" name="SocialMediaId" value="0" />
+
+            <!-- Platform -->
+            <div class="space-y-2">
+                <label class="block text-sm font-semibold text-slate-300">
+                    Platform Adı
+                    <span class="text-red-400">*</span>
+                </label>
+                <input type="text"
+                       id="platform"
+                       name="Platform"
+                       class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                       placeholder="Örn: Instagram, Twitter, LinkedIn"
+                       required />
+            </div>
+
+            <!-- URL -->
+            <div class="space-y-2">
+                <label class="block text-sm font-semibold text-slate-300">
+                    Profil URL
+                    <span class="text-red-400">*</span>
+                </label>
+                <input type="url"
+                       id="url"
+                       name="Url"
+                       class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                       placeholder="https://instagram.com/kullaniciadi"
+                       required />
+            </div>
+
+            <!-- Icon -->
+            <div class="space-y-2">
+                <label class="block text-sm font-semibold text-slate-300">
+                    İkon (Font Awesome Class)
+                    <span class="text-slate-500 text-xs font-normal ml-1">- Opsiyonel</span>
+                </label>
+                <input type="text"
+                       id="icon"
+                       name="Icon"
+                       class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                       placeholder="Örn: fa-brands fa-instagram, fa-brands fa-twitter" />
+                <p class="text-xs text-slate-500">Font Awesome icon class adını girin (örn: fa-brands fa-instagram)</p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-3 pt-4 border-t border-slate-800">
+                <button type="submit"
+                        class="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
+                    <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">save</span>
+                    <span id="submitButtonText">Kaydet</span>
+                </button>
+                <button type="button"
+                        onclick="closeModal()"
+                        class="flex-1 flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all">
+                    <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">cancel</span>
+                    İptal
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openAddModal() {
+        document.getElementById('modalTitle').textContent = 'Yeni Sosyal Medya Hesabı Ekle';
+        document.getElementById('submitButtonText').textContent = 'Kaydet';
+        document.getElementById('socialMediaForm').action = '/SocialMedia/CreateSocialMedia';
+        document.getElementById('socialMediaId').value = '0';
+        document.getElementById('platform').value = '';
+        document.getElementById('url').value = '';
+        document.getElementById('icon').value = '';
+        document.getElementById('socialMediaModal').classList.remove('hidden');
+    }
+
+    function openEditModal(id, platform, url, icon) {
+        document.getElementById('modalTitle').textContent = 'Sosyal Medya Hesabını Düzenle';
+        document.getElementById('submitButtonText').textContent = 'Değişiklikleri Kaydet';
+        document.getElementById('socialMediaForm').action = '/SocialMedia/UpdateSocialMedia';
+        document.getElementById('socialMediaId').value = id;
+        document.getElementById('platform').value = platform;
+        document.getElementById('url').value = url;
+        document.getElementById('icon').value = icon || '';
+        document.getElementById('socialMediaModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('socialMediaModal').classList.add('hidden');
+    }
+
+    // Close modal on outside click
+    document.getElementById('socialMediaModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+        }
+    });
+
+    // Close modal on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    });
+</script>

@@ -1,0 +1,36 @@
+﻿@model List<Case1ResumeProject.Entities.Education>
+
+<div class="col-md-6">
+    <div class="bg-white rounded shadow-dark padding-30">
+
+        @foreach (var item in Model)
+        {
+            <div class="mb-4">
+                <span class="time d-block mb-1">@item.EducationPeriod</span>
+
+                <h5 class="title mb-1">@item.Degree</h5>
+
+                <!-- BÖLÜM -->
+                <p class="text-muted mb-1">
+                    @item.Department
+                </p>
+
+                <!-- ÜNİVERSİTE -->
+                <strong>@item.University</strong>
+
+                <!-- GPA (opsiyonel) -->
+                @if (!string.IsNullOrWhiteSpace(item.GPA))
+                {
+                    <div class="education-gpa mt-1">
+                        GPA: @item.GPA
+                    </div>
+                }
+            </div>
+
+            <hr />
+        }
+
+        <!-- CERTIFICATES -->
+        @await Component.InvokeAsync("_DefaultCertificateComponentPartial")
+    </div>
+</div>

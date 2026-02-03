@@ -1,0 +1,125 @@
+﻿@model Service
+@{
+    ViewData["Title"] = "CreateService";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="flex-1 overflow-y-auto p-8">
+    <div class="max-w-4xl mx-auto space-y-8">
+        <!-- Header Section -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-2xl font-bold text-white">Yeni Hizmet Ekle</h3>
+                <p class="text-slate-400 text-sm mt-1">Yeni bir hizmet kaydı oluşturun</p>
+            </div>
+            <a href="/Service/ServiceList/" class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-all">
+                <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">arrow_back</span>
+                Listeye Dön
+            </a>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-card-dark rounded-xl border border-slate-800 overflow-hidden shadow-2xl">
+            <form method="post" class="p-8 space-y-6">
+                <!-- Title -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">
+                        Hizmet Başlığı
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text"
+                           name="Title"
+                           class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                           placeholder="Örn: Web Tasarım, Mobil Uygulama Geliştirme"
+                           required />
+                </div>
+
+                <!-- Description -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">
+                        Açıklama
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <textarea name="Description"
+                              rows="5"
+                              class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
+                              placeholder="Hizmet hakkında detaylı açıklama..."
+                              required></textarea>
+                </div>
+
+                <!-- Image URL -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-slate-300">
+                        Hizmet İkon URL
+                        <span class="text-red-400">*</span>
+                    </label>
+                    <input type="text"
+                           name="ImageUrl"
+                           id="imageUrl"
+                           class="w-full px-4 py-3 bg-slate-900/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+                           placeholder="https://example.com/icon.png"
+                           oninput="updateImagePreview(this.value)"
+                           required />
+
+                    <!-- Icon Preview -->
+                    <div class="mt-4 bg-slate-900/30 border border-slate-700 rounded-lg p-4">
+                        <p class="text-slate-400 text-xs font-semibold mb-2 uppercase tracking-wider">İkon Önizleme</p>
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-lg bg-slate-800 flex items-center justify-center">
+                                <img id="imagePreview" src="" alt="Önizleme" class="w-6 h-6 object-contain hidden" />
+                                <span id="imagePlaceholder" class="material-symbols-outlined text-slate-600" style="font-size: 24px;">image</span>
+                            </div>
+                            <p class="text-slate-400 text-sm">İkon 24x24px boyutunda görüntülenecek</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-4 pt-4 border-t border-slate-800">
+                    <button type="submit"
+                            class="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all shadow-lg shadow-primary/20">
+                        <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">save</span>
+                        Hizmeti Kaydet
+                    </button>
+                    <a href="/Service/ServiceList/"
+                       class="flex items-center gap-2 bg-slate-800 hover:bg-slate-700 text-white px-6 py-3 rounded-lg font-bold text-sm transition-all">
+                        <span class="material-symbols-outlined text-white" style="color: white; font-size: 20px;">cancel</span>
+                        İptal
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Info Card -->
+        <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6">
+            <div class="flex gap-4">
+                <span class="material-symbols-outlined text-blue-400" style="font-size: 24px;">info</span>
+                <div class="space-y-1">
+                    <h4 class="text-sm font-semibold text-blue-400">Bilgilendirme</h4>
+                    <p class="text-sm text-slate-300">Yıldız (*) ile işaretli alanların doldurulması zorunludur. Hizmet ikonu için küçük boyutlu (24x24 veya 32x32) PNG/SVG dosyası kullanın.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateImagePreview(url) {
+        const preview = document.getElementById('imagePreview');
+        const placeholder = document.getElementById('imagePlaceholder');
+
+        if (url && url.trim() !== '') {
+            preview.src = url;
+            preview.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+
+            preview.onerror = function() {
+                preview.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+            };
+        } else {
+            preview.classList.add('hidden');
+            placeholder.classList.remove('hidden');
+        }
+    }
+</script>
