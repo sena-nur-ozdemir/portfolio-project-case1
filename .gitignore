@@ -1,0 +1,13 @@
+.vs/
+bin/
+obj/
+*.exe
+*.dll
+*.user
+*.suo
+*.vsp
+*.vscode/
+.idea/
+*.iml
+*.nupkg
+packages/
